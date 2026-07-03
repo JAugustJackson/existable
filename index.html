@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cal+Sans&family=Walter+Turncoat&family=Silkscreen&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Region Xentrix';
+      src: url('assets/region-xentrix.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    html, body { margin: 0; padding: 0; }
+    body { overflow-x: hidden; }
+  </style>
+</helmet>
+<div ref="{{ rootRef }}">
+  <div style="font-family: 'Inter', 'Helvetica Neue', sans-serif; min-height: 100vh; background: var(--bg, #7fd4f2);">
+    <div ref="{{ fxRef }}" style="position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;"></div>
+
+    <section data-screen-label="Hero" ref="{{ heroRef }}" style="height: var(--hero-h, calc(100vh - 90px)); min-height: 560px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; z-index: 1; overflow: visible;">
+      <div ref="{{ logoRef }}" style="width: min(56vmin, 500px); aspect-ratio: 525 / 516; filter: var(--logo-fx, drop-shadow(0 0 26px rgba(0, 140, 220, 0.55)));"></div>
+      <nav style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; padding: 0 16px; margin-top: 7vh;">
+        <a onClick="{{ goHome }}" style="cursor: pointer; user-select: none; padding: 12px 32px; font-size: 24px; font-weight: var(--w-ui, 400); font-family: var(--font-ui, 'Cal Sans', 'Inter', sans-serif); border-radius: var(--pill-r, 999px); background: var(--nav-home-bg, #ffffff); color: var(--nav-home-ink, #1779d4); border: var(--nav-home-border, 2px solid rgba(255,255,255,0.95));" style-hover="transform: translateY(-2px); color: var(--nav-home-hover-ink, #1779d4);">Home</a>
+        <a onClick="{{ goEducation }}" style="cursor: pointer; user-select: none; padding: 12px 32px; font-size: 24px; font-weight: var(--w-ui, 400); font-family: var(--font-ui, 'Cal Sans', 'Inter', sans-serif); border-radius: var(--pill-r, 999px); background: var(--nav-education-bg, rgba(255,255,255,0.4)); color: var(--nav-education-ink, #1779d4); border: var(--nav-education-border, 2px solid rgba(255,255,255,0.95));" style-hover="transform: translateY(-2px); color: var(--nav-education-hover-ink, #1779d4);">Education</a>
+        <a onClick="{{ goApplications }}" style="cursor: pointer; user-select: none; padding: 12px 32px; font-size: 24px; font-weight: var(--w-ui, 400); font-family: var(--font-ui, 'Cal Sans', 'Inter', sans-serif); border-radius: var(--pill-r, 999px); background: var(--nav-applications-bg, rgba(255,255,255,0.4)); color: var(--nav-applications-ink, #1779d4); border: var(--nav-applications-border, 2px solid rgba(255,255,255,0.95));" style-hover="transform: translateY(-2px); color: var(--nav-applications-hover-ink, #1779d4);">Applications</a>
+        <a onClick="{{ goGames }}" style="cursor: pointer; user-select: none; padding: 12px 32px; font-size: 24px; font-weight: var(--w-ui, 400); font-family: var(--font-ui, 'Cal Sans', 'Inter', sans-serif); border-radius: var(--pill-r, 999px); background: var(--nav-games-bg, rgba(255,255,255,0.4)); color: var(--nav-games-ink, #1779d4); border: var(--nav-games-border, 2px solid rgba(255,255,255,0.95));" style-hover="transform: translateY(-2px); color: var(--nav-games-hover-ink, #1779d4);">Games</a>
+      </nav>
+    </section>
+
+    <section data-screen-label="Feed" style="position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 30px; padding: 8px 20px 70px;">
+      <sc-for list="{{ cards }}" as="card" hint-placeholder-count="3">
+        <a href="{{ card.href }}" target="_blank" rel="noopener" style="display: flex; flex-wrap: wrap; width: 100%; max-width: 820px; background: var(--card-bg, #ffffff); border: var(--card-border, 1px solid transparent); border-radius: var(--card-r, 22px); overflow: hidden; text-decoration: none; box-shadow: var(--card-shadow, 0 12px 34px rgba(23, 121, 212, 0.2));" style-hover="transform: translateY(-4px);">
+          <div style="flex: 1 0 240px; min-height: 200px; background: {{ card.imgBg }}; display: grid; place-items: center;">
+            <span style="font-family: monospace; font-size: 12px; opacity: 0.6; color: var(--card-ink, #5b87a8);">{{ card.imgLabel }}</span>
+          </div>
+          <div style="flex: 1 1 340px; padding: 28px 32px; display: flex; flex-direction: column; gap: 10px; justify-content: center;">
+            <h3 style="margin: 0; font-size: 24px; font-weight: var(--w-title, 400); font-family: var(--font-title, 'Cal Sans', 'Inter', sans-serif); line-height: 1.25; color: var(--title, #1779d4);">{{ card.title }}</h3>
+            <p style="margin: 0; font-size: 16px; font-family: var(--font-body, 'Cal Sans', 'Inter', sans-serif); line-height: 1.55; color: var(--card-ink, #5b87a8);">{{ card.desc }}</p>
+          </div>
+        </a>
+      </sc-for>
+      <div style="font-family: monospace; font-size: 12px; opacity: 0.55; color: var(--ink, #0f6dc0); padding-top: 10px;">{{ feedStatus }}</div>
+    </section>
+
+    <footer style="position: relative; z-index: 1; text-align: center; padding: 26px 20px 34px; font-size: 14px; color: var(--ink, #0f6dc0); opacity: 0.8;">© {{ year }} Abbrevided Media</footer>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;heroHeight&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;calc(100vh - 90px)&quot;,&quot;90vh&quot;,&quot;100vh&quot;],&quot;default&quot;:&quot;calc(100vh - 90px)&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;startSection&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;education&quot;,&quot;applications&quot;,&quot;games&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;intensity&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:0.2,&quot;max&quot;:2.5,&quot;step&quot;:0.1,&quot;default&quot;:1.4,&quot;unit&quot;:&quot;×&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Logo physics&quot;}}">
+class Component extends DCLogic {
+  state = { theme: 'home', extra: 0, feed: {} };
+
+  // Airtable live feed — fetched through /api/feed so the token stays server-side
+
+  loadFeed(theme, more) {
+    const cur = this.state.feed[theme] || { cards: [], offset: null, done: false, loading: false, loaded: false };
+    if (cur.loading) return;
+    if (more && (cur.done || !cur.loaded)) return;
+    if (!more && cur.loaded) return;
+    this.setState(s => ({ feed: { ...s.feed, [theme]: { ...cur, loading: true } } }));
+    let url = '/api/feed?category=' + encodeURIComponent(theme);
+    if (more && cur.offset) url += '&offset=' + encodeURIComponent(cur.offset);
+    fetch(url)
+      .then(r => r.json())
+      .then(data => {
+        if (!this._mounted) return;
+        if (data.error) {
+          this.setState(s => ({ feed: { ...s.feed, [theme]: { ...cur, loading: false, loaded: false, error: data.error.type || String(data.error) } } }));
+          return;
+        }
+        const recs = (data.records || []).map(r => {
+          const f = r.fields || {};
+          let img = '';
+          if (Array.isArray(f.Image) && f.Image[0] && f.Image[0].url) img = f.Image[0].url;
+          else if (typeof f.Image === 'string') img = f.Image;
+          return { title: f.Title || 'Untitled', desc: f.Blurb || '', href: f.Link || '#', img };
+        });
+        this.setState(s => ({
+          feed: {
+            ...s.feed,
+            [theme]: {
+              cards: more ? cur.cards.concat(recs) : recs,
+              offset: data.offset || null,
+              done: !data.offset,
+              loading: false,
+              loaded: true,
+              error: null
+            }
+          }
+        }));
+      })
+      .catch(err => {
+        if (!this._mounted) return;
+        this.setState(s => ({ feed: { ...s.feed, [theme]: { ...cur, loading: false, error: String(err) } } }));
+      });
+  }
+
+  themes = {
+    home: {
+      bg: 'url("assets/home-bg.png") center / cover no-repeat fixed #7fd4f2',
+      ink: '#0f6dc0', title: '#1779d4', cardBg: '#ffffff', cardInk: '#5b87a8',
+      cardBorder: '1px solid transparent', cardR: '22px', cardShadow: '0 12px 34px rgba(23,121,212,0.2)',
+      phA: '#e9f5fc', phB: '#d9edf9', pillR: '999px',
+      navBg: 'rgba(255,255,255,0.4)', navInk: '#1779d4', navBorder: '2px solid rgba(255,255,255,0.95)',
+      navActiveBg: '#ffffff', navActiveInk: '#1779d4', navActiveBorder: '2px solid #ffffff',
+      fontUi: "'Cal Sans', 'Inter', sans-serif", fontTitle: "'Cal Sans', 'Inter', sans-serif", fontBody: "'Cal Sans', 'Inter', sans-serif", wUi: '400', wTitle: '400',
+      logoFill: '#ffffff', logoFx: 'drop-shadow(0 0 26px rgba(0,140,220,0.55))',
+      phys: { k: 0.045, damp: 0.9, push: 3.2, radius: 150, rotate: true, mode: 'soft' }
+    },
+    education: {
+      bg: 'url("assets/education-bg.png") center / cover no-repeat fixed #2c473a',
+      ink: '#e8efe9', title: '#f0f5f0', cardBg: 'rgba(255,255,255,0.04)', cardInk: '#c9d6cc',
+      cardBorder: '2px solid #dfe9e2', cardR: '6px', cardShadow: 'none',
+      phA: 'rgba(255,255,255,0.05)', phB: 'rgba(255,255,255,0.11)', pillR: '255px 15px 225px 15px / 15px 225px 15px 255px',
+      navBg: 'transparent', navInk: '#e8efe9', navBorder: '2px solid transparent',
+      navActiveBg: 'rgba(255,255,255,0.05)', navActiveInk: '#ffffff', navActiveBorder: '2px solid #e8efe9',
+      fontUi: "'Chalkduster', 'Walter Turncoat', cursive", fontTitle: "'Chalkduster', 'Walter Turncoat', cursive", fontBody: "'Chalkduster', 'Walter Turncoat', cursive", wUi: '400', wTitle: '400',
+      logoFill: '#e6efe8', logoFx: 'drop-shadow(0 0 8px rgba(230,240,230,0.3))',
+      phys: { k: 0.03, damp: 0.87, push: 1.8, radius: 130, rotate: true, mode: 'dust' }
+    },
+    applications: {
+      bg: 'url("assets/applications-bg.png") center / cover no-repeat fixed #142a6e',
+      ink: '#eaf1ff', title: '#1c5bd8', cardBg: 'rgba(238,244,255,0.94)', cardInk: '#33507a',
+      cardBorder: '1px solid rgba(255,255,255,0.5)', cardR: '18px', cardShadow: '0 16px 40px rgba(0,0,30,0.4)',
+      phA: '#dfe9fb', phB: '#cfdcf6', pillR: '999px',
+      navBg: 'rgba(255,255,255,0.14)', navInk: '#eaf1ff', navBorder: '1px solid rgba(255,255,255,0.35)',
+      navActiveBg: '#1b4ed8', navActiveInk: '#ffffff', navActiveBorder: '1px solid rgba(160,195,255,0.9)',
+      fontUi: "'Inter', sans-serif", fontTitle: "'Inter', sans-serif", fontBody: "'Inter', sans-serif", wUi: '600', wTitle: '800',
+      logoFill: '#ffffff', logoFx: 'drop-shadow(0 8px 20px rgba(0,0,30,0.5))',
+      phys: { k: 0.11, damp: 0.78, push: 2.4, radius: 130, rotate: false, mode: 'precise' }
+    },
+    games: {
+      bg: 'url("assets/games-bg.png") center / cover no-repeat fixed #050505',
+      ink: '#e8e8e8', title: '#e01b24', cardBg: '#0a0a0a', cardInk: '#d0d0d0',
+      cardBorder: '2px solid #d8d8d8', cardR: '0px', cardShadow: 'none',
+      phA: '#101010', phB: '#1b1b1b', pillR: '0px',
+      navBg: '#050505', navInk: '#eeeeee', navBorder: '2px solid #cfcfcf',
+      navActiveBg: '#e01b24', navActiveInk: '#ffffff', navActiveBorder: '2px solid #e01b24',
+      fontUi: "'Region Xentrix', 'Silkscreen', monospace", fontTitle: "'Region Xentrix', 'Silkscreen', monospace", fontBody: "'Inter', sans-serif", wUi: '400', wTitle: '400',
+      logoFill: '#ffffff', logoFx: 'drop-shadow(0 0 12px rgba(255,255,255,0.85))',
+      phys: { k: 0.06, damp: 0.84, push: 3.4, radius: 150, rotate: false, mode: 'glitch' }
+    }
+  };
+
+  baseCards = {
+    home: [
+      { title: 'Claude Fable 5 is Back', desc: 'The interactive fable engine returns with branching chapters, persistent characters, and a narrator with opinions.', imgLabel: 'og:image', href: '#' },
+      { title: 'SREF Mining Company', desc: 'A tool that lets you prospect style-reference seeds, stake claims on the good ones, and keep a ledger of every vein you strike.', imgLabel: 'og:image', href: '#' },
+      { title: "'Finity", desc: 'Learn just how little you can actually comprehend infinity by playing with a grid that never, ever ends.', imgLabel: 'og:image', href: '#' }
+    ],
+    education: [
+      { title: "'Finity", desc: 'Learn just how little you can actually comprehend infinity by playing with a grid that never, ever ends.', imgLabel: 'og:image', href: '#' },
+      { title: 'Orbit Sandbox', desc: 'Fling planets, break Kepler, and find out why your moon keeps leaving. Gravity is a suggestion here.', imgLabel: 'og:image', href: '#' },
+      { title: 'Long Division, Short Temper', desc: 'A patient, step-at-a-time arithmetic coach that never sighs at you. Much.', imgLabel: 'og:image', href: '#' }
+    ],
+    applications: [
+      { title: 'SREF Mining Company', desc: 'The SREF Mining Company is a tool that lets you prospect style-reference seeds and keep a ledger of every vein you strike.', imgLabel: 'og:image', href: '#' },
+      { title: 'Prompt Splicer', desc: 'Cut, recombine, and A/B prompt fragments like gene sequences. Includes a mutation slider you will abuse.', imgLabel: 'og:image', href: '#' },
+      { title: 'Palette Loom', desc: 'Weave color systems from a single seed swatch — exports tokens, checks contrast, judges your taste silently.', imgLabel: 'og:image', href: '#' }
+    ],
+    games: [
+      { title: 'Redacted: Disclosure is Eminent', desc: 'Redacted is a casual gameplay TCG based on declassified files, unreliable witnesses, and things in the sky.', imgLabel: 'og:image', href: '#' },
+      { title: 'Claude Fable 5', desc: 'The branching fable engine, in full game trim — chapters, characters, and consequences that remember you.', imgLabel: 'og:image', href: '#' },
+      { title: 'Dice Mangler', desc: 'A push-your-luck dice roguelike where every die you break stays broken. Forever. In every run.', imgLabel: 'og:image', href: '#' }
+    ]
+  };
+
+  heroRef = (el) => { this.heroEl = el; this.bindHero(); };
+  rootRef = (el) => { if (el) { this.rootEl = el; this.applyThemeVars(this.state.theme); } };
+
+  applyThemeVars(theme) {
+    if (!this.rootEl) return;
+    const th = this.themes[theme];
+    const vars = {
+      '--bg': th.bg, '--ink': th.ink, '--title': th.title,
+      '--card-bg': th.cardBg, '--card-ink': th.cardInk, '--card-border': th.cardBorder,
+      '--card-r': th.cardR, '--card-shadow': th.cardShadow,
+      '--ph-a': th.phA, '--ph-b': th.phB, '--pill-r': th.pillR,
+      '--logo-fx': th.logoFx,
+      '--font-ui': th.fontUi, '--font-title': th.fontTitle, '--font-body': th.fontBody,
+      '--w-ui': th.wUi, '--w-title': th.wTitle,
+      '--hero-h': this.props.heroHeight ?? 'calc(100vh - 90px)'
+    };
+    for (const item of ['home', 'education', 'applications', 'games']) {
+      const active = item === theme;
+      vars['--nav-' + item + '-bg'] = active ? th.navActiveBg : th.navBg;
+      vars['--nav-' + item + '-ink'] = active ? th.navActiveInk : th.navInk;
+      vars['--nav-' + item + '-border'] = active ? th.navActiveBorder : th.navBorder;
+      vars['--nav-' + item + '-hover-ink'] = theme === 'education' ? '#F94FA7' : (active ? th.navActiveInk : th.navInk);
+    }
+    for (const k in vars) this.rootEl.style.setProperty(k, vars[k]);
+  }
+  logoRef = (el) => {
+    if (el && el !== this.logoEl) { this.logoEl = el; this.loadSvg(this.state.theme, true); }
+  };
+
+  componentDidMount() {
+    this._mounted = true;
+    this.mouse = { x: 0, y: 0, active: false };
+    this.pieces = [];
+    const valid = ['home', 'education', 'applications', 'games'];
+    const hash = (location.hash || '').replace('#', '');
+    const start = valid.includes(hash) ? hash : (valid.includes(this.props.startSection) ? this.props.startSection : 'home');
+    if (start !== this.state.theme) { this.setState({ theme: start }, () => { this.applyThemeVars(start); this.loadSvg(start, true); }); }
+    this.loadFeed(start);
+    this._onScroll = () => {
+      const nearBottom = document.documentElement.scrollHeight - window.scrollY - window.innerHeight < 500;
+      if (nearBottom) this.loadFeed(this.state.theme, true);
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    const step = (t) => {
+      if (!this._mounted) return;
+      this.tick(t);
+      this.fxTick(t);
+      this._raf = requestAnimationFrame(step);
+    };
+    this._raf = requestAnimationFrame(step);
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
+    cancelAnimationFrame(this._raf);
+    window.removeEventListener('scroll', this._onScroll);
+    if (this._fxResize) window.removeEventListener('resize', this._fxResize);
+  }
+
+  bindHero() {
+    if (!this.heroEl || this._heroBound) return;
+    this._heroBound = true;
+    this.heroEl.addEventListener('pointermove', (e) => {
+      const svg = this.svgEl;
+      if (!svg) return;
+      const ctm = svg.getScreenCTM();
+      if (!ctm) return;
+      const pt = new DOMPoint(e.clientX, e.clientY).matrixTransform(ctm.inverse());
+      this.mouse = { x: pt.x, y: pt.y, active: true };
+    });
+    this.heroEl.addEventListener('pointerleave', () => { this.mouse.active = false; });
+  }
+
+  // Figma exports merge each tessellation into one giant <path>. Split its `d` into
+  // subpaths (absolute M commands) so every icon/letter fragment is its own physics
+  // piece, then re-merge hole subpaths (bbox fully contained in a bigger subpath,
+  // e.g. letter counters) back into their container so evenodd holes stay holes.
+  splitPieces(svg) {
+    const paths = Array.from(svg.children).filter(el => el.tagName.toLowerCase() === 'path');
+    for (const path of paths) {
+      const d = path.getAttribute('d') || '';
+      const subs = d.split(/(?=M)/g).filter(s => s.trim());
+      if (subs.length < 2) continue;
+      if (subs.some(s => s.trim()[0] !== 'M') || d.indexOf('m') !== -1) continue; // relative commands — skip
+      const frag = subs.map(s => {
+        const p = path.cloneNode(false);
+        p.setAttribute('d', s.trim());
+        return p;
+      });
+      for (const p of frag) svg.insertBefore(p, path);
+      svg.removeChild(path);
+      const boxes = frag.map(p => {
+        try { return p.getBBox(); } catch (e) { return { x: 0, y: 0, width: 0, height: 0 }; }
+      });
+      const parent = new Array(frag.length).fill(-1);
+      for (let i = 0; i < frag.length; i++) {
+        const a = boxes[i], aArea = a.width * a.height;
+        let best = -1, bestArea = Infinity;
+        for (let j = 0; j < frag.length; j++) {
+          if (i === j) continue;
+          const b = boxes[j], bArea = b.width * b.height;
+          if (bArea <= aArea) continue;
+          if (a.x >= b.x - 0.5 && a.y >= b.y - 0.5 &&
+              a.x + a.width <= b.x + b.width + 0.5 &&
+              a.y + a.height <= b.y + b.height + 0.5 &&
+              bArea < bestArea) { bestArea = bArea; best = j; }
+        }
+        parent[i] = best;
+      }
+      const rootOf = (i) => {
+        let r = i; const seen = new Set();
+        while (parent[r] !== -1 && !seen.has(r)) { seen.add(r); r = parent[r]; }
+        return r;
+      };
+      const groups = new Map();
+      for (let i = 0; i < frag.length; i++) {
+        const r = rootOf(i);
+        if (!groups.has(r)) groups.set(r, []);
+        if (r !== i) groups.get(r).push(i);
+      }
+      for (const [r, kids] of groups) {
+        if (!kids.length) continue;
+        let dd = frag[r].getAttribute('d');
+        for (const k of kids) { dd += ' ' + frag[k].getAttribute('d'); svg.removeChild(frag[k]); }
+        frag[r].setAttribute('d', dd);
+      }
+    }
+  }
+
+  loadSvg(theme, assemble) {
+    if (!this.logoEl) return;
+    const token = (this._loadToken = (this._loadToken || 0) + 1);
+    fetch('assets/' + theme + '-tessellation.svg')
+      .then(r => r.text())
+      .then(txt => {
+        if (!this._mounted || token !== this._loadToken || !this.logoEl) return;
+        this.logoEl.innerHTML = txt;
+        const svg = this.logoEl.querySelector('svg');
+        if (!svg) return;
+        svg.removeAttribute('width');
+        svg.removeAttribute('height');
+        svg.style.width = '100%';
+        svg.style.height = '100%';
+        svg.style.overflow = 'visible';
+        svg.style.display = 'block';
+        const fill = this.themes[theme].logoFill;
+        if (!svg.getAttribute('fill') || svg.getAttribute('fill') === 'none') svg.setAttribute('fill', fill);
+        this.splitPieces(svg);
+        const kids = Array.from(svg.children).filter(el => !['defs', 'style', 'title'].includes(el.tagName.toLowerCase()));
+        this.pieces = kids.map(el => {
+          el.style.transformBox = 'fill-box';
+          el.style.transformOrigin = 'center';
+          const a = assemble ? 1 : 0;
+          return {
+            el,
+            x: (Math.random() - 0.5) * 900 * a, y: (Math.random() - 0.5) * 900 * a,
+            vx: 0, vy: 0, rot: (Math.random() - 0.5) * 240 * a, vr: 0,
+            phase: Math.random() * Math.PI * 2
+          };
+        });
+        this.svgEl = svg;
+      })
+      .catch(() => {});
+  }
+
+  tick(t) {
+    const pieces = this.pieces;
+    if (!pieces || !pieces.length) return;
+    const th = this.themes[this.state.theme];
+    const q = th.phys;
+    const I = Math.max(0.1, +(this.props.intensity ?? 1));
+    const m = this.mouse;
+    for (let i = 0; i < pieces.length; i++) {
+      const p = pieces[i];
+      if (p.cx === undefined) {
+        try { const b = p.el.getBBox(); p.cx = b.x + b.width / 2; p.cy = b.y + b.height / 2; }
+        catch (e) { p.cx = 0; p.cy = 0; }
+      }
+      if (m.active) {
+        const dx = (p.cx + p.x) - m.x;
+        const dy = (p.cy + p.y) - m.y;
+        const dist = Math.hypot(dx, dy) || 1;
+        if (dist < q.radius) {
+          const f = q.push * I * (1 - dist / q.radius);
+          p.vx += (dx / dist) * f;
+          p.vy += (dy / dist) * f;
+          if (q.rotate) p.vr += (dx / dist) * f * 0.6;
+        }
+      }
+      p.vx = (p.vx - q.k * p.x) * q.damp;
+      p.vy = (p.vy - q.k * p.y) * q.damp;
+      p.vr = (p.vr - q.k * 1.4 * p.rot) * q.damp;
+      p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+
+      let tx = p.x, ty = p.y, rot = q.rotate ? p.rot : 0;
+      if (q.mode === 'dust') {
+        ty += Math.sin(t * 0.0012 + p.phase) * 1.6;
+        rot += Math.sin(t * 0.0009 + p.phase * 2) * 1.5;
+      } else if (q.mode === 'glitch') {
+        tx = Math.round(tx / 8) * 8;
+        ty = Math.round(ty / 8) * 8;
+        if (Math.abs(p.vx) + Math.abs(p.vy) > 2 && Math.random() < 0.06) {
+          tx += (Math.random() - 0.5) * 24;
+        }
+      } else if (q.mode === 'precise') {
+        if (Math.abs(tx) > Math.abs(ty)) ty *= 0.35; else tx *= 0.35;
+      }
+      p.el.style.transform = 'translate(' + tx.toFixed(2) + 'px,' + ty.toFixed(2) + 'px) rotate(' + rot.toFixed(2) + 'deg)';
+    }
+  }
+
+  // ------- background FX layer (all rAF-driven; CSS animations freeze in this runtime) -------
+  fxRef = (el) => { if (el && el !== this.fxEl) { this.fxEl = el; this.setupFx(this.state.theme); } };
+
+  setupFx(theme) {
+    if (!this.fxEl) return;
+    this.fxEl.innerHTML = '';
+    this.fx = null;
+    if (theme === 'education') return; // chalkboard stays still
+    const c = document.createElement('canvas');
+    c.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;display:block;';
+    this.fxEl.appendChild(c);
+    const fx = { type: theme, canvas: c, ctx: c.getContext('2d'), w: 0, h: 0, items: [], nextBurst: 0, burstEnd: 0, bands: [], lastJitter: 0 };
+    const resize = () => { fx.w = c.width = window.innerWidth; fx.h = c.height = window.innerHeight; };
+    resize();
+    this.fxResizeFn = resize;
+    if (!this._fxResize) {
+      this._fxResize = () => { if (this.fxResizeFn) this.fxResizeFn(); };
+      window.addEventListener('resize', this._fxResize);
+    }
+    if (theme === 'home') {
+      // pre-rendered soft blob sprite
+      const s = document.createElement('canvas');
+      s.width = s.height = 256;
+      const sg = s.getContext('2d');
+      const g = sg.createRadialGradient(128, 128, 0, 128, 128, 128);
+      g.addColorStop(0, 'rgba(255,255,255,0.9)');
+      g.addColorStop(0.55, 'rgba(255,255,255,0.35)');
+      g.addColorStop(1, 'rgba(255,255,255,0)');
+      sg.fillStyle = g;
+      sg.fillRect(0, 0, 256, 256);
+      fx.sprite = s;
+      for (let i = 0; i < 24; i++) fx.items.push(this.makeCloud(fx, true));
+    } else if (theme === 'applications') {
+      const snippets = ['// TODO: onboarding flow', 'auto-layout: hug contents', 'z-index: 9999', '8px baseline grid', 'const ship = await polish()', 'component / primary / hover', 'padding: 24px', 'user.flow \u2192 checkout', 'v2.3.1-beta', 'corner-radius: 12', '/* handoff notes */', 'opacity: 0.64'];
+      for (let layer = 0; layer < 3; layer++) {
+        const count = 5 + layer * 3;
+        for (let i = 0; i < count; i++) {
+          const isText = Math.random() < 0.45;
+          fx.items.push({
+            layer,
+            kind: isText ? 'text' : (Math.random() < 0.5 ? 'win' : 'sq'),
+            text: snippets[Math.floor(Math.random() * snippets.length)],
+            x: Math.random() * (window.innerWidth + 400) - 200,
+            y: Math.random() * window.innerHeight,
+            s: 24 + Math.random() * 90 + layer * 30
+          });
+        }
+      }
+    } else if (theme === 'games') {
+      const img = new Image();
+      img.src = 'assets/games-bg.png';
+      fx.img = img;
+      fx.nextBurst = performance.now() + 1200;
+    }
+    this.fx = fx;
+  }
+
+  makeCloud(fx, anywhere) {
+    const r = 70 + Math.random() * 190;
+    return {
+      x: anywhere ? Math.random() * (fx.w + 2 * r) - r : fx.w + r,
+      y: Math.random() * fx.h,
+      r,
+      sp: 0.18 + Math.random() * 0.5 + r * 0.0012,
+      a: 0.06 + Math.random() * 0.14
+    };
+  }
+
+  fxTick(t) {
+    const fx = this.fx;
+    if (!fx || !fx.ctx) return;
+    const ctx = fx.ctx, w = fx.w, h = fx.h;
+    if (fx.type === 'home') {
+      ctx.clearRect(0, 0, w, h);
+      for (const p of fx.items) {
+        p.x -= p.sp;
+        if (p.x < -p.r) Object.assign(p, this.makeCloud(fx, false));
+        ctx.globalAlpha = p.a;
+        ctx.drawImage(fx.sprite, p.x - p.r, p.y - p.r, p.r * 2, p.r * 2);
+      }
+      ctx.globalAlpha = 1;
+    } else if (fx.type === 'applications') {
+      ctx.clearRect(0, 0, w, h);
+      const speeds = [0.22, 0.5, 1.0];
+      const alphas = [0.14, 0.22, 0.34];
+      for (const p of fx.items) {
+        p.x -= speeds[p.layer];
+        const span = p.kind === 'text' ? 260 : p.s;
+        if (p.x < -span - 40) { p.x = w + 60 + Math.random() * 200; p.y = Math.random() * h; }
+        ctx.globalAlpha = alphas[p.layer];
+        ctx.strokeStyle = '#6ea8ff';
+        ctx.fillStyle = '#8fc0ff';
+        ctx.lineWidth = 1 + p.layer * 0.5;
+        if (p.kind === 'text') {
+          ctx.font = (10 + p.layer * 3) + 'px monospace';
+          ctx.fillText(p.text, p.x, p.y);
+        } else if (p.kind === 'sq') {
+          ctx.strokeRect(p.x, p.y, p.s, p.s);
+        } else {
+          const ww = p.s * 1.5, wh = p.s;
+          ctx.strokeRect(p.x, p.y, ww, wh);
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y + 12);
+          ctx.lineTo(p.x + ww, p.y + 12);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(p.x + 6, p.y + 6, 1.6, 0, 7);
+          ctx.arc(p.x + 12, p.y + 6, 1.6, 0, 7);
+          ctx.fill();
+        }
+      }
+      ctx.globalAlpha = 1;
+    } else if (fx.type === 'games') {
+      if (t > fx.nextBurst) {
+        fx.burstEnd = t + 130 + Math.random() * 240;
+        fx.nextBurst = t + 2200 + Math.random() * 2800;
+        fx.bands = [];
+        const n = 3 + Math.floor(Math.random() * 4);
+        for (let i = 0; i < n; i++) {
+          fx.bands.push({
+            y: Math.random() * h,
+            h: 8 + Math.random() * 70,
+            shift: (Math.random() - 0.5) * 90,
+            tint: Math.random() < 0.3
+          });
+        }
+      }
+      if (t < fx.burstEnd && fx.img && fx.img.complete && fx.img.naturalWidth) {
+        if (t - fx.lastJitter > 55) {
+          fx.lastJitter = t;
+          for (const b of fx.bands) b.shift = (Math.random() - 0.5) * 90;
+        }
+        ctx.clearRect(0, 0, w, h);
+        const iw = fx.img.naturalWidth, ih = fx.img.naturalHeight;
+        const sc = Math.max(w / iw, h / ih);
+        const dw = iw * sc, dh = ih * sc;
+        const dx = (w - dw) / 2, dy = (h - dh) / 2;
+        for (const b of fx.bands) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.rect(0, b.y, w, b.h);
+          ctx.clip();
+          ctx.drawImage(fx.img, dx + b.shift, dy, dw, dh);
+          if (b.tint) {
+            ctx.globalAlpha = 0.12;
+            ctx.fillStyle = Math.random() < 0.5 ? '#e01b24' : '#18c4c4';
+            ctx.fillRect(0, b.y, w, b.h);
+            ctx.globalAlpha = 1;
+          }
+          ctx.restore();
+        }
+      } else if (fx.bands.length) {
+        ctx.clearRect(0, 0, w, h);
+        fx.bands = [];
+      }
+    }
+  }
+
+  blast() {
+    const pieces = this.pieces || [];
+    for (const p of pieces) {
+      const ang = Math.random() * Math.PI * 2;
+      const v = 18 + Math.random() * 26;
+      p.vx += Math.cos(ang) * v;
+      p.vy += Math.sin(ang) * v;
+      p.vr += (Math.random() - 0.5) * 40;
+    }
+  }
+
+  switchTheme(t) {
+    if (t === this.state.theme) return;
+    this.blast();
+    try { history.replaceState(null, '', '#' + t); } catch (e) {}
+    document.title = 'Existable — ' + t.charAt(0).toUpperCase() + t.slice(1);
+    this.setState({ theme: t, extra: 0 });
+    this.applyThemeVars(t);
+    this.setupFx(t);
+    this.loadFeed(t);
+    setTimeout(() => { if (this._mounted && this.state.theme === t) this.loadSvg(t, true); }, 380);
+  }
+
+  renderVals() {
+    const theme = this.state.theme;
+    const f = this.state.feed[theme];
+    const raw = f && f.loaded ? f.cards : this.baseCards[theme];
+    const stripes = 'repeating-linear-gradient(45deg, var(--ph-a, #e9f5fc), var(--ph-a, #e9f5fc) 12px, var(--ph-b, #d9edf9) 12px, var(--ph-b, #d9edf9) 24px)';
+    const cards = raw.map(c => ({
+      ...c,
+      imgBg: c.img ? 'url("' + c.img + '") center / cover no-repeat' : stripes,
+      imgLabel: c.img ? '' : 'image'
+    }));
+    let feedStatus;
+    if (f && f.error) feedStatus = '// airtable error: ' + f.error;
+    else if (!f || f.loading && !f.loaded) feedStatus = '// loading live feed\u2026';
+    else if (f.loaded && !cards.length) feedStatus = '// nothing in this category yet';
+    else if (f.loaded && f.done) feedStatus = '// end of feed';
+    else feedStatus = '// scroll for more';
+    return {
+      cards,
+      feedStatus,
+      year: new Date().getFullYear(),
+      heroRef: this.heroRef,
+      rootRef: this.rootRef,
+      fxRef: this.fxRef,
+      logoRef: this.logoRef,
+      goHome: () => this.switchTheme('home'),
+      goEducation: () => this.switchTheme('education'),
+      goApplications: () => this.switchTheme('applications'),
+      goGames: () => this.switchTheme('games')
+    };
+  }
+}
+</script>
+</body>
+</html>
