@@ -1,6 +1,6 @@
 # Existable — toybox site
 
-Single-page site for existable.com. Four themed sections (Home / Education / Applications / Games), each with its own background texture, fonts, interactive tessellation logo (cursor physics), and a live card feed pulled from Airtable.
+Single-page site for existable.com. Five themed sections (Home / Education / Applications / Games / Music), each with its own background texture, fonts, interactive tessellation logo (cursor physics), and a live card feed pulled from Airtable.
 
 ## Structure
 
@@ -32,7 +32,7 @@ Opening `index.html` directly from disk will render the site but the feed will s
 
 ## Content
 
-All cards come from the Airtable base (table columns: `Title`, `Blurb`, `Category`, `Link`, `Image`). `Category` must be one of Home / Education / Applications / Games (any capitalization). Edit rows in Airtable and the site updates on next page load — no redeploy needed. The `/api/feed` responses are edge-cached for 60 seconds.
+All cards come from the Airtable base (table columns: `Title`, `Blurb`, `Category`, `Link`, `Image`). `Category` must be one of Home / Education / Applications / Games / Music (any capitalization). Edit rows in Airtable and the site updates on next page load — no redeploy needed. The `/api/feed` responses are edge-cached for 60 seconds.
 
 ## Notes
 
